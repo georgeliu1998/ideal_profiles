@@ -19,7 +19,12 @@ def make_text_list(postings_dict, first_n_postings=100):
     
     text_list = []
     for i in range(0, first_n_postings+1):
-        text_list.append(postings_dict[str(i)]['posting'])
+        # Since some number could be missing due to errors in scraping, handle exception here 
+        # so that program can run error free
+        try:
+            text_list.append(postings_dict[str(i)]['posting'])
+        except:
+            continue        
     
     return text_list
 
@@ -41,8 +46,11 @@ def nltk_process(text, stem=False):
     stemmer = SnowballStemmer("english")
     tokens = word_tokenize(text)
 
+    # Remove non-alphabetic tokens
+    tokens = [token for token in tokens if token.isalpha()]
+
     # Remove stop words
-    tokens = [word for word in tokens if word not in stop_words]
+    tokens = [token for token in tokens if token not in stop_words]
     # Stem tokens
     if stem:
         tokens = [stemmer.stem(i) for i in tokens]
@@ -52,7 +60,7 @@ def nltk_process(text, stem=False):
 
 
 
-def clean_text(text_list, stem=False):
+def clean_text(text_list, stem=False, return_string=False):
     """
     Clean the text so that all words are root...
     
@@ -71,7 +79,8 @@ def clean_text(text_list, stem=False):
     cleaned_text = []
     for i in text_list_processed:
         cleaned_text += i
-
-    cleaned_text = ' '.join(cleaned_text)
+        
+    if return_string:
+        cleaned_text = ' '.join(cleaned_text)
     
     return cleaned_text  
