@@ -52,3 +52,4 @@ def plot_wc(text, max_words=200, stopwords_list=[], to_file_name=None):
     if to_file_name:
         to_file_name = to_file_name + ".png"
         wordcloud.to_file(to_file_name)
+
