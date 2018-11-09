@@ -44,7 +44,7 @@ def nltk_process(text, stem=False):
     
     stop_words = set(stopwords.words('english')) 
     stemmer = SnowballStemmer("english")
-    tokens = word_tokenize(text)
+    tokens = word_tokenize(text.lower())
 
     # Remove non-alphabetic tokens
     tokens = [token for token in tokens if token.isalpha()]
@@ -84,3 +84,4 @@ def clean_text(text_list, stem=False, return_string=False):
         cleaned_text = ' '.join(cleaned_text)
     
     return cleaned_text  
+
