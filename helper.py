@@ -1,4 +1,5 @@
 import json
+import re, csv
 from wordcloud import WordCloud, STOPWORDS
 from matplotlib import pyplot as plt
 from process_text import *
@@ -56,7 +57,7 @@ def plot_wc(text, max_words=200, stopwords_list=[], to_file_name=None):
 
 
 
-def plot_profile(title, first_n_postings, max_words=200, return_posting=False):
+def plot_profile(title, first_n_postings, max_words=200, return_posting=False, return_tokens=False):
     """
     Loads the corresponding json file, extracts the first_n job postings and plot the wordcloud profile.
     
@@ -71,13 +72,23 @@ def plot_profile(title, first_n_postings, max_words=200, return_posting=False):
     # Convert title to full file name then load the data
     file_name = '_'.join(title.split()) + '.json'
     data = load_data(file_name)
-    # Get the posting
+    
+    # Only of the two can be True
+    if return_posting and return_tokens:
+        print('You can only return either a posting or the tokens list, not both! \nPlease try again.')
+        return None
+
+    # Return the posting
     if return_posting:
         n_posting = data[str(first_n_postings)]
         return n_posting
     
     text_list = make_text_list(data, first_n_postings)
     cleaned_text = clean_text(text_list)
+
+    # Return the tokens list
+    if return_tokens:
+        return cleaned_text
     
     # Get the stop words to use
     with open('stopwords.csv', 'r', newline='') as f:
@@ -88,5 +99,4 @@ def plot_profile(title, first_n_postings, max_words=200, return_posting=False):
     text = ' '.join(cleaned_text)
     to_file_name = '_'.join(title.split())
     plot_wc(text, max_words, stopwords_list=stop_list, to_file_name=to_file_name)
-    
-    #return n_posting   
+
