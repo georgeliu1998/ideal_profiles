@@ -30,7 +30,6 @@ def make_text_list(postings_dict, first_n_postings=100):
 
 
 
-
 def nltk_process(text, stem=False):
     """
     Tokenize, stem and remove stop words for the given text
@@ -59,7 +58,6 @@ def nltk_process(text, stem=False):
 
 
 
-
 def clean_text(text_list, stem=False, return_string=False):
     """
     Clean the text so that all words are root...
@@ -85,3 +83,23 @@ def clean_text(text_list, stem=False, return_string=False):
     
     return cleaned_text  
 
+
+
+def check_freq(words, tokens):
+    """
+    Check each given word's freqency in a list of tokens.
+
+    Params:
+        words: (list) a list of word strings to check frequency for
+        text: (list) a list of tokens to search in
+
+    Returns:
+        freq: (dict) frequency counts
+
+    """
+    freq = {}
+
+    for word in words:
+        freq[word] = tokens.count(word)
+
+    return freq
