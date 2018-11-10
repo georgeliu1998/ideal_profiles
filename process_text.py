@@ -108,12 +108,15 @@ def clean_text(text_list, stem=False, return_string=False):
 
 
 
-def check_freq(words, tokens):
+def check_freq(dict_to_check, tokens):
     """
-    Check each given word's freqency in a list of tokens.
+    Checks each given word's freqency in a list of tokens.
 
     Params:
-        words: (list) a list of word strings to check frequency for
+        words: (dict) a dict of word strings to check frequency for, format:
+            {'languages': ['Python', 'R'..],
+            'big data': ['AWS'],
+            , ..}
         text: (list) a list of tokens to search in
 
     Returns:
@@ -122,7 +125,13 @@ def check_freq(words, tokens):
     """
     freq = {}
 
-    for word in words:
-        freq[word] = tokens.count(word)
+    for k, v in dict_to_check.items():
+        # Initialize each category as a dictionary
+        freq[k] = {}
+        # Convert words to lowercase
+        words = [word.lower() for word in v]
+
+        for word in words:
+            freq[k][word] = tokens.count(word)
 
     return freq
