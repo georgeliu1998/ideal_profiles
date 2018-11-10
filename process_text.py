@@ -1,3 +1,4 @@
+from string import digits
 from nltk import word_tokenize
 from nltk.corpus import stopwords 
 from nltk.stem.snowball import SnowballStemmer
@@ -30,6 +31,24 @@ def make_text_list(postings_dict, first_n_postings=100):
 
 
 
+def remove_digits(token):
+    """
+    Remove digits from a token
+
+    Params:
+        token: (str) a string token
+
+    Returns:
+        cleaned_token: (str) the cleaned token
+
+    """
+    # Remove digits from the token
+    remove_digits = str.maketrans('', '', digits)
+    token = token.translate(remove_digits)
+    return token
+    
+
+
 def nltk_process(text, stem=False):
     """
     Tokenize, stem and remove stop words for the given text
@@ -45,11 +64,15 @@ def nltk_process(text, stem=False):
     stemmer = SnowballStemmer("english")
     tokens = word_tokenize(text.lower())
 
-    # Remove non-alphabetic tokens
-    tokens = [token for token in tokens if token.isalpha()]
+    # Change "C++" to "Cpp" to avoid being removed below
+    tokens = ['cpp' if token=='c++' else token for token in tokens]
 
-    # Remove stop words
-    tokens = [token for token in tokens if token not in stop_words]
+    # Remove digits
+    tokens = [remove_digits(token) for token in tokens]
+
+    # Remove non-alphabetic tokens and stopwords
+    tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
+  
     # Stem tokens
     if stem:
         tokens = [stemmer.stem(i) for i in tokens]
