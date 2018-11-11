@@ -66,6 +66,8 @@ def nltk_process(text, stem=False):
 
     # Change "C++" to "Cpp" to avoid being removed below
     tokens = ['cpp' if token=='c++' else token for token in tokens]
+    # Same with C#
+    tokens = ['csharp' if token=='c#' else token for token in tokens]
 
     # Remove digits
     tokens = [remove_digits(token) for token in tokens]
