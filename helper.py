@@ -3,6 +3,7 @@ import re, csv
 from wordcloud import WordCloud, STOPWORDS
 from matplotlib import pyplot as plt
 from process_text import *
+import pandas as pd
 
 
 def load_data(file_name):
@@ -100,3 +101,23 @@ def plot_profile(title, first_n_postings, max_words=200, return_posting=False, r
     to_file_name = '_'.join(title.split())
     plot_wc(text, max_words, stopwords_list=stop_list, to_file_name=to_file_name)
 
+
+
+def plot_skill(df, title, skill):
+    """
+    Plots a barplot showing the frequency of different skills in descending order
+
+    Params:
+        df: (pandas df) the frequency df as defined in the main jupyter notebook file
+        title: (str) the job title to plot for
+        skill: (str) the skill to search for
+
+    Returns:
+        None
+
+    """
+    # Subset and sort the df 
+    df = df.query('title==@title & category==@skill')[['skill', 'frequency']]
+    df = df.sort_values(by='frequency', ascending=False)
+    df.plot(x='skill', y='frequency', kind='bar')
+    
