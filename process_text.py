@@ -122,16 +122,16 @@ def tokenize_list(text_list, stem=False, return_string=False):
 
 
 
-def check_freq(dict_to_check, tokens):
+def check_freq(dict_to_check, text_list):
     """
-    Checks each given word's freqency in a list of tokens.
+    Checks each given word's freqency in a list of posting strings.
 
     Params:
         words: (dict) a dict of word strings to check frequency for, format:
             {'languages': ['Python', 'R'..],
-            'big data': ['AWS'],
-            , ..}
-        text: (list) a list of tokens to search in
+            'big data': ['AWS', 'Azure'...],
+             ..}
+        text_list: (list) a list of posting strings to search in
 
     Returns:
         freq: (dict) frequency counts
@@ -139,13 +139,17 @@ def check_freq(dict_to_check, tokens):
     """
     freq = {}
 
-    for k, v in dict_to_check.items():
-        # Initialize each category as a dictionary
-        freq[k] = {}
-        # Convert words to lowercase
-        words = [word.lower() for word in v]
+    # Join the text together and convert words to lowercase 
+    text = ' '.join(text_list).lower()
 
-        for word in words:
-            freq[k][word] = tokens.count(word)
+    for category, skill_list in dict_to_check.items():
+        # Initialize each category as a dictionary
+        freq[category] = {}
+        for skill in skill_list:
+            if len(skill) == 1: # padding single letter skills such as "R"
+                skill_name = ' ' + skill.lower() + ' '
+            else:
+                skill_name = skill.lower()    
+            freq[category][skill] = text.count(skill_name)
 
     return freq
