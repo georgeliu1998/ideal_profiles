@@ -58,7 +58,12 @@ def plot_wc(text, max_words=200, stopwords_list=[], to_file_name=None):
 
 
 
-def plot_profile(title, first_n_postings, max_words=200, return_posting=False, return_tokens=False):
+def plot_profile(title, 
+    first_n_postings, 
+    max_words=200, 
+    return_posting=False, 
+    return_tokens=False,
+    return_text_list=False):
     """
     Loads the corresponding json file, extracts the first_n job postings and plot the wordcloud profile.
     
@@ -75,19 +80,19 @@ def plot_profile(title, first_n_postings, max_words=200, return_posting=False, r
     data = load_data(file_name)
     
     # Only of the two can be True
-    if return_posting and return_tokens:
-        print('You can only return either a posting or the tokens list, not both! \nPlease try again.')
+    if (return_posting + return_tokens + return_text_list) >= 2:
+        print('You can only return one of these: a posting, tokens, text list! \nPlease try again.')
         return None
 
-    # Return the posting
     if return_posting:
         n_posting = data[str(first_n_postings)]
         return n_posting
     
     text_list = make_text_list(data, first_n_postings)
-    
-    if return_tokens:
-        # Return the list of tokens if needed
+
+    if return_text_list:
+        return text_list
+    elif return_tokens:
         tokens = tokenize_list(text_list, return_string=False)
         return tokens
     else:
@@ -102,7 +107,7 @@ def plot_profile(title, first_n_postings, max_words=200, return_posting=False, r
 
 
 
-def plot_skill(df, title, skill):
+def plot_skill(df, title, category):
     """
     Plots a barplot showing the frequency of different skills in descending order
 
@@ -116,7 +121,7 @@ def plot_skill(df, title, skill):
 
     """
     # Subset and sort the df 
-    df = df.query('title==@title & category==@skill')[['skill', 'frequency']]
+    df = df.query('title==@title & category==@category')[['skill', 'frequency']]
     df = df.sort_values(by='frequency', ascending=False)
     df.plot(x='skill', y='frequency', kind='bar')
     
