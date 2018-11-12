@@ -85,21 +85,20 @@ def plot_profile(title, first_n_postings, max_words=200, return_posting=False, r
         return n_posting
     
     text_list = make_text_list(data, first_n_postings)
-    cleaned_text = clean_text(text_list)
-
-    # Return the tokens list
+    
     if return_tokens:
-        return cleaned_text
-    
-    # Get the stop words to use
-    with open('stopwords.csv', 'r', newline='') as f:
-        reader = csv.reader(f)
-        stop_list = list(reader)[0]
-    
-    # Join the tokens into a string for plotting
-    text = ' '.join(cleaned_text)
-    to_file_name = '_'.join(title.split())
-    plot_wc(text, max_words, stopwords_list=stop_list, to_file_name=to_file_name)
+        # Return the list of tokens if needed
+        tokens = tokenize_list(text_list, return_string=False)
+        return tokens
+    else:
+        # Get the tokens joined as a string
+        text = tokenize_list(text_list, return_string=True)
+        # Get the stop words to use
+        with open('stopwords.csv', 'r', newline='') as f:
+            reader = csv.reader(f)
+            stop_list = list(reader)[0]
+        to_file_name = '_'.join(title.split())
+        plot_wc(text, max_words, stopwords_list=stop_list, to_file_name=to_file_name)
 
 
 
