@@ -1,5 +1,6 @@
-from string import digits
-from nltk import word_tokenize
+#from string import digits
+#from nltk import word_tokenize
+import re
 from nltk.corpus import stopwords 
 from nltk.stem.snowball import SnowballStemmer
 
@@ -20,8 +21,8 @@ def make_text_list(postings_dict, first_n_postings=100):
     
     text_list = []
     for i in range(0, first_n_postings+1):
-        # Since some number could be missing due to errors in scraping, handle exception here 
-        # so that program can run error free
+        # Since some number could be missing due to errors in scraping, 
+        # handle exception here to ensure error free
         try:
             text_list.append(postings_dict[str(i)]['posting'])
         except:
@@ -49,7 +50,7 @@ def remove_digits(token):
     
 
 
-def nltk_process(text, stem=False):
+def tokenize_text(text, stem=False):
     """
     Tokenize, stem and remove stop words for the given text
     
@@ -59,24 +60,32 @@ def nltk_process(text, stem=False):
     Returns:
         token_list: the processed text as a list of tokens
     """
-    
     stop_words = set(stopwords.words('english')) 
-    stemmer = SnowballStemmer("english")
-    tokens = word_tokenize(text.lower())
+    #tokens = word_tokenize(text.lower())
 
     # Change "C++" to "Cpp" to avoid being removed below
-    tokens = ['cpp' if token=='c++' else token for token in tokens]
+    #tokens = ['cpp' if token=='c++' else token for token in tokens]
     # Same with C#
-    tokens = ['csharp' if token=='c#' else token for token in tokens]
-
+    #tokens = ['csharp' if token=='c#' else token for token in tokens]
     # Remove digits
-    tokens = [remove_digits(token) for token in tokens]
-
+    #tokens = [remove_digits(token) for token in tokens]
     # Remove non-alphabetic tokens and stopwords
-    tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
+    #tokens = [token for token in tokens if token.isalpha() and token not in stop_words]
   
+    # Use Regex to tokenize
+    # Replace any non word characters except .+# with space
+    text = re.sub("[^\w.+#]", " ", text)
+    # Twe cases to replace with space
+    # Case 1: \d+\.?\d+\s -- any number of digits followed by a space with or without
+    # a dot in between
+    # Case 2: \d+\+ -- any number of digits followed by a plus sign
+    text = re.sub("\d+\.?\d+\s|\d+\+", " ", text) 
+    tokens = text.lower().split()
+    tokens = [token for token in tokens if token not in stop_words]
+
     # Stem tokens
     if stem:
+        stemmer = SnowballStemmer("english")
         tokens = [stemmer.stem(i) for i in tokens]
                     
     return tokens 
@@ -97,7 +106,7 @@ def clean_text(text_list, stem=False, return_string=False):
     #text = [set(re.split('/| |\n|', i)) for i in text]
     #text = [set(re.split('\W', i)) for i in text_list]
     
-    text_list_processed = [nltk_process(text=i, stem=stem) for i in text_list]
+    text_list_processed = [tokenize_text(text=i, stem=stem) for i in text_list]
     
     cleaned_text = []
     for i in text_list_processed:
