@@ -58,7 +58,7 @@ def tokenize_text(text, stem=False):
         text: a text string
     
     Returns:
-        token_list: the processed text as a list of tokens
+        tokens: the processed text as a list of tokens
     """
     stop_words = set(stopwords.words('english')) 
     #tokens = word_tokenize(text.lower())
@@ -92,30 +92,32 @@ def tokenize_text(text, stem=False):
 
 
 
-def clean_text(text_list, stem=False, return_string=False):
+def tokenize_list(text_list, stem=False, return_string=False):
     """
-    Clean the text so that all words are root...
+    Tokenize the given list of text and then combine list of tokens into text for plotting
     
     Parameters:
         text_list -- list of job posting strings
         
     Returns:
-        cleaned_text -- a text string for word cloud plot
+        text -- a text string for word cloud plot
     """
     # Split the text based on slash, space and newline, then take set     
     #text = [set(re.split('/| |\n|', i)) for i in text]
     #text = [set(re.split('\W', i)) for i in text_list]
     
-    text_list_processed = [tokenize_text(text=i, stem=stem) for i in text_list]
+    text_list_tokenized = [tokenize_text(text=i, stem=stem) for i in text_list]
     
-    cleaned_text = []
-    for i in text_list_processed:
-        cleaned_text += i
+    tokens = []
+    # Combine all token lists into one big list of tokens
+    for i in text_list_tokenized:
+        tokens += i
         
     if return_string:
-        cleaned_text = ' '.join(cleaned_text)
+        text = ' '.join(tokens)
     
-    return cleaned_text  
+    # Return the list of all tokens
+    return tokens  
 
 
 
