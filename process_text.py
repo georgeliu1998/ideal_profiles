@@ -115,6 +115,7 @@ def tokenize_list(text_list, stem=False, return_string=False):
         
     if return_string:
         text = ' '.join(tokens)
+        return text
     
     # Return the list of all tokens
     return tokens  
