@@ -4,6 +4,8 @@ from wordcloud import WordCloud, STOPWORDS
 from matplotlib import pyplot as plt
 from process_text import *
 import pandas as pd
+import numpy as np
+
 
 
 def load_data(file_name):
@@ -107,21 +109,58 @@ def plot_profile(title,
 
 
 
-def plot_skill(df, title, category):
+def plot_title(df, title):
     """
-    Plots a barplot showing the frequency of different skills in descending order
-
+    Plots the skill frequencies of all skill categories for a given title.
+    
     Params:
-        df: (pandas df) the frequency df as defined in the main jupyter notebook file
-        title: (str) the job title to plot for
-        skill: (str) the skill to search for
-
+        df: (pandas df) the frequency df
+        title: (str) one of the three job titles
+            ['data scientist', 'machine learning engineer', 'data engineer']
+    
     Returns:
         None
-
-    """
-    # Subset and sort the df 
-    df = df.query('title==@title & category==@category')[['skill', 'frequency']]
-    df = df.sort_values(by='frequency', ascending=False)
-    df.plot(x='skill', y='frequency', kind='bar')
     
+    """
+    titles = ['data scientist', 'machine learning engineer', 'data engineer']
+    if title in titles:
+        title = title.title()
+    else:
+        print('Title invalid. Please try again!')
+    
+    # Subset df to the given title
+    df_title = df.query('title==@title')
+
+    # Set up the parameters for the plotting grid
+    nrows=4
+    ncols=2
+    figsize = (15, 20)
+    # Add a dummy category name to match the grid
+    categories = np.append(df_title.category.unique(), 'Empty').reshape(4, 2)
+    
+    # Generate the plotting objects
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
+    
+    # Loop thru the axis of the figure
+    for row in range(nrows):
+        for col in range(ncols):
+            cat = categories[row, col]
+            # Subset to one category for each subplot
+            df_cat = df_title.query('category==@cat')
+            df_cat = df_cat.sort_values(by='frequency', ascending=False)
+            # Find the correspoinding axis in axes
+            ax = axes[row, col]
+            # Handle errors for the empty last subplot
+            try:
+                df_cat.plot(x='skill', y='frequency', kind='bar', ax=ax)
+                ax.set(title=cat, xlabel='', ylabel='Frequency')
+                for tick in ax.get_xticklabels():
+                    tick.set_rotation(60)
+            except:
+                pass
+
+    # Add the figure title
+    fig.suptitle('Data Scientist Skills', y=0.9, verticalalignment='bottom', fontsize=30)
+    #plt.tight_layout() # make sure subplots don't overlap
+    plt.subplots_adjust(hspace=0.8) # make sure the figure title doesn't overlap with subplot titles
+    plt.show()
