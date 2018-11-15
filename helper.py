@@ -165,4 +165,8 @@ def plot_title(df, title, save_figure=False):
     plt.subplots_adjust(hspace=0.8) # make sure the figure title doesn't overlap with subplot titles
     plt.show()
 
+    if save_figure:
+        figure_name = fig_title + '.png'
+        fig.savefig(figure_name)
+
 
