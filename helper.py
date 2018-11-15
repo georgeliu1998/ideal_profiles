@@ -109,7 +109,7 @@ def plot_profile(title,
 
 
 
-def plot_title(df, title):
+def plot_title(df, title, save_figure=False):
     """
     Plots the skill frequencies of all skill categories for a given title.
     
@@ -160,7 +160,9 @@ def plot_title(df, title):
                 pass
 
     # Add the figure title
-    fig.suptitle('Data Scientist Skills', y=0.9, verticalalignment='bottom', fontsize=30)
-    #plt.tight_layout() # make sure subplots don't overlap
+    fig_title = title + ' Skill Frequencies'
+    fig.suptitle(fig_title, y=0.9, verticalalignment='bottom', fontsize=30)
     plt.subplots_adjust(hspace=0.8) # make sure the figure title doesn't overlap with subplot titles
     plt.show()
+
+
