@@ -170,3 +170,59 @@ def plot_title(df, title, save_figure=False):
         fig.savefig(figure_name)
 
 
+
+def plot_skill(df, cat, save_figure=False):
+    """
+    Plots the skill frequencies of all job titles for a given skill category.
+    
+    Params:
+        df: (pandas df) the frequency df
+        cat: (str) one of the seven skill categories:
+            'Programming Languages', 'Big Data Technologies'...
+    
+    Returns:
+        None
+    
+    """
+    categories = list(df.category.unique())
+    titles = list(df.title.unique())
+     
+    if cat.title() not in categories:
+        print('Category invalid. Please try again!')
+        return None
+    cat = cat.title()
+    
+    # Subset df to the given category
+    df_cat = df.query('category==@cat')
+
+    # Set up the parameters for the plotting grid
+    nrows = len(titles)
+    ncols = 1
+    figsize = (10, 12)
+    
+    # Generate the plotting objects
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
+    
+    # Loop thru the axes of the figure
+    for row in range(nrows):
+        title = titles[row]
+        # Subset to one title for each subplot
+        df_title = df_cat.query('title==@title')
+        df_title = df_title.sort_values(by='frequency', ascending=False)
+        # Find the correspoinding axis in axes
+        ax = axes[row]
+        df_title.plot(x='skill', y='frequency', kind='bar', ax=ax)
+        ax.set(title=title, xlabel='', ylabel='Frequency')
+        ax.get_legend().remove()
+        for tick in ax.get_xticklabels():
+            tick.set_rotation(30)
+
+    # Add the figure title
+    fig_title = cat + ' Distribution'
+    fig.suptitle(fig_title, y=0.92, verticalalignment='baseline', fontsize=30)
+    plt.subplots_adjust(hspace=0.4) # make sure the figure title doesn't overlap with subplot titles
+    plt.show()
+
+    if save_figure:
+        figure_name = fig_title + '.png'
+        fig.savefig(figure_name)
