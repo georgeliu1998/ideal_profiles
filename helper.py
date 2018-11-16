@@ -221,8 +221,8 @@ def plot_skill(df, cat, save_figure=False):
 
     # Add the figure title
     fig_title = cat + ' Distribution'
-    fig.suptitle(fig_title, y=0.92, verticalalignment='baseline', fontsize=30)
-    plt.subplots_adjust(hspace=0.4) # make sure the figure title doesn't overlap with subplot titles
+    fig.suptitle(fig_title, y=0.95, verticalalignment='baseline', fontsize=30)
+    plt.subplots_adjust(hspace=0.36) # make sure the figure title doesn't overlap with subplot titles
     plt.show()
 
     if save_figure:
