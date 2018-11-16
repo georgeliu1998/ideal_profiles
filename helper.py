@@ -115,33 +115,34 @@ def plot_title(df, title, save_figure=False):
     
     Params:
         df: (pandas df) the frequency df
-        title: (str) one of the three job titles
-            ['data scientist', 'machine learning engineer', 'data engineer']
+        title: (str) one of the three job titles:
+            'data scientist', 'machine learning engineer', 'data engineer'
     
     Returns:
         None
     
     """
-    titles = ['data scientist', 'machine learning engineer', 'data engineer']
-    if title in titles:
-        title = title.title()
-    else:
+    categories = df.category.unique()
+    titles = list(df.title.unique())
+
+    # Ensure input is valid
+    if title.title() not in titles:
         print('Title invalid. Please try again!')
-    
+        return None
+    title = title.title()
     # Subset df to the given title
     df_title = df.query('title==@title')
-
     # Set up the parameters for the plotting grid
     nrows=4
     ncols=2
     figsize = (15, 20)
     # Add a dummy category name to match the grid
-    categories = np.append(df_title.category.unique(), 'Empty').reshape(4, 2)
+    categories = np.append(categories, 'Empty').reshape(4, 2)
     
     # Generate the plotting objects
     fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize)
     
-    # Loop thru the axis of the figure
+    # Loop thru the axes of the figure
     for row in range(nrows):
         for col in range(ncols):
             cat = categories[row, col]
@@ -154,15 +155,16 @@ def plot_title(df, title, save_figure=False):
             try:
                 df_cat.plot(x='skill', y='frequency', kind='bar', ax=ax)
                 ax.set(title=cat, xlabel='', ylabel='Frequency')
+                ax.get_legend().remove() # remove legend
                 for tick in ax.get_xticklabels():
                     tick.set_rotation(60)
             except:
-                pass
+                fig.delaxes(ax)
 
     # Add the figure title
-    fig_title = title + ' Skill Frequencies'
-    fig.suptitle(fig_title, y=0.9, verticalalignment='bottom', fontsize=30)
-    plt.subplots_adjust(hspace=0.8) # make sure the figure title doesn't overlap with subplot titles
+    fig_title = title + ' Skills Distribution'
+    fig.suptitle(fig_title, y=0.92, verticalalignment='bottom', fontsize=30)
+    plt.subplots_adjust(hspace=0.9) # make sure the figure title doesn't overlap with subplot titles
     plt.show()
 
     if save_figure:
@@ -213,7 +215,7 @@ def plot_skill(df, cat, save_figure=False):
         ax = axes[row]
         df_title.plot(x='skill', y='frequency', kind='bar', ax=ax)
         ax.set(title=title, xlabel='', ylabel='Frequency')
-        ax.get_legend().remove()
+        ax.get_legend().remove() # remove legend
         for tick in ax.get_xticklabels():
             tick.set_rotation(30)
 
