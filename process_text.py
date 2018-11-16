@@ -146,7 +146,7 @@ def check_freq(dict_to_check, text_list):
         # Initialize each category as a dictionary
         freq[category] = {}
         for skill in skill_list:
-            if len(skill) == 1: # padding single letter skills such as "R"
+            if len(skill) == 1: # pad single letter skills such as "R" with spaces
                 skill_name = ' ' + skill.lower() + ' '
             else:
                 skill_name = skill.lower()    
