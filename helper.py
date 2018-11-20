@@ -49,7 +49,7 @@ def plot_wc(text, max_words=200, stopwords_list=[], to_file_name=None):
                          width = 800, height = 800, 
                          random_state=8).generate(text)
     
-    plt.figure(figsize=[16,16])
+    plt.figure(figsize=[16,12])
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
     plt.show()
