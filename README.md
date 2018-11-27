@@ -5,7 +5,7 @@ The two related Medium posts are [What Does an Ideal Data Scientist’s Profile 
 
 
 ## How to Use
-If you want to run the code locally, please download the repo and build your Anaconda environment using the `env_ideal_profiles.yaml` file. file. Then you can start with data scraping by running `python scrape_date.py` in Anaconda Prompt. Once you have the raw data, you can then clean the data using the `data_wrangling.ipynb` Jupyter Notebook. Finally, the `ideal_profiles_2.ipynb` Notebook can be used to make various plots. Refer to list below for the roles of different files.
+If you want to run the code locally, please download the repo and build your Anaconda environment using the `env_ideal_profiles.yaml` file. Then you can start with data scraping by running `python scrape_date.py` in Anaconda Prompt. Once you have the raw data, you can then clean the data using the `data_wrangling.ipynb` Jupyter Notebook. Finally, the `ideal_profiles_2.ipynb` Notebook can be used to make various plots. Refer to list below for the roles of different files.
 
 
 ## Files
@@ -32,4 +32,4 @@ Any contribution is welcome!
 
 
 ## License
-MIT
+MIT [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
