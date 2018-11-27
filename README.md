@@ -1,5 +1,5 @@
 # Ideal Profiles
-What does an ideal Data Scientist's profile look like? This project aims to provide a quantitative answer based on Indeed job postings. In this project, I scraped job posting data from Indeed and analyzed frequencies for various Data Science skills. The analysis then can be used not only as objective keyword reference for resume optimization, but can also be guidance for learning!
+What does an ideal Data Scientist's profile look like? This project aims to provide a quantitative answer based on job postings. In this project, I scraped job posting data from Indeed and analyzed frequencies for various Data Science skills. The analysis then can be used not only as objective keyword reference for resume optimization, but can also serve as Data Science learning road map!!
 
 The two related Medium posts are [What Does an Ideal Data Scientist’s Profile Look Like?](https://towardsdatascience.com/what-does-an-ideal-data-scientists-profile-look-like-7d7bd78ff7ab) and [Navigating the Data Science Careers Landscape](https://hackernoon.com/navigating-the-data-science-career-landscape-db746a61ac62).
 
