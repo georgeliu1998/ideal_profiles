@@ -8,6 +8,23 @@ The two related Medium posts are [What Does an Ideal Data Scientist’s Profile 
 If you want to run the code locally, please download the repo and build your Anaconda environment using the `env_ideal_profiles.yaml` file. Then you can start with data scraping by running `python scrape_date.py` in Anaconda Prompt. Once you have the raw data, you can then clean the data using the `data_wrangling.ipynb` Jupyter Notebook. Finally, the `ideal_profiles_2.ipynb` Notebook can be used to make various plots. Refer to list below for the roles of different files.
 
 
+## Requirements
+- Windows 10 OS
+- Firefox Web Browser 63.0.3
+- Ananconda 3
+- geckodriver v0.22.0 (geckodriver-v0.22.0-win64.zip, available [here](https://github.com/mozilla/geckodriver/releases))
+- pandas (see the yaml file for version number, same below)
+- numpy
+- matplotlib
+- json
+- re
+- csv
+- wordcloud
+- nltk
+- bs4 (BeautifulSoup)
+- selenium
+
+
 ## Files
 - `scrape_data.py`: scrapes the data from Indeed.ca
 - `process_text.py`: performs various text related operations such as remove digits, tokenize, and check term frequency
