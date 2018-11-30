@@ -46,6 +46,7 @@ Any contribution is welcome!
 - Update all docstrings and comments
 - OOP
 - Code refactoring - single responsibility principle for functions
+- Add Data Analyst role
 
 
 ## License
