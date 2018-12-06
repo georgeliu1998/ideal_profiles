@@ -46,7 +46,8 @@ Any contribution is welcome!
 - Update all docstrings and comments
 - OOP
 - Code refactoring - single responsibility principle for functions
-- Add Data Analyst role
+- Add Data Analyst and AI Engineer roles
+- Allow to show Percentage of Mentions for a certain skill, i.e., out of 1000 job postings, what proportion mentions the given skill?
 
 
 ## License
